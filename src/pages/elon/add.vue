@@ -102,7 +102,7 @@
         <h2 class="font-sans text-2xl my-4 font-bold">Tavsif*</h2>
         <textarea
           v-model="Elon.description"
-          class="w-9/12 h-52 p-2 bg-gray-200 rounded focus:outline-none indent-3"
+          class="md:w-9/12 max-sm:w-full h-52 p-2 bg-gray-200 rounded focus:outline-none indent-3"
           placeholder="Reklamadan qanday tafsilotlarni bilmoqchi ekanligingizni o'ylab ko'ring va ularni tavsif qo'shing"
         ></textarea>
         <p v-if="error" class="text-red-500 mt-1">{{ error }}</p>

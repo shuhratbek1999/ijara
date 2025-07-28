@@ -65,11 +65,11 @@ onMounted(() => {
 <template>
   <div class="category_list">
     <div
-      class="main_category flex flex-wrap gap-2"
+      class="main_category grid md:grid-cols-3 max-sm:grid-cols-2 gap-2 justify-around"
       v-if="subCategoryList.length == 0"
     >
       <div
-        class="category_lists w-[32%] h-15 bg-gray-300 rounded-lg flex justify-start px-4 items-center cursor-pointer gap-2"
+        class="category_lists h-15 bg-gray-300 rounded-lg flex justify-start px-4 items-center cursor-pointer gap-2"
         v-for="(main, index) in store.categorys"
         :key="'main' + index"
         @click="MainCategory(main)"
