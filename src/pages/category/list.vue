@@ -1,10 +1,10 @@
 <template>
-  <div class="list">
+  <div class="list overflow-x-auto">
     <a-table
       :columns="columns"
       :data-source="categoryAll"
       :pagination="{ pageSize: 50 }"
-      :scroll="{ y: 300 }"
+      :scroll="{ x: columns.length * 150, y: 400 }"
     >
     </a-table>
     <a-float-button type="primary" @click="handleAddCategory">

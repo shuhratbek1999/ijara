@@ -44,7 +44,6 @@ export const useCategoryStore = defineStore("category", () => {
       params: { id: id, type: type },
     });
     OneCategory.value = response.data.data;
-    console.log(response.data);
   }
   async function deleteCategory(id) {
     await deleteAddressApi(id);

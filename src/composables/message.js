@@ -15,8 +15,7 @@ export async function getMessages({ myId, otherUserId }) {
 }
 export async function getMyIncomingUsers() {
   const myId = localStorage.getItem("userID");
-  console.log("salommm", myId);
-
+  // console.log("salommm", myId);
   const res = await axios.get(`${BASE_URL}/message/incoming/${myId}`, {
     headers: {
       Authorization: `Bearer ${token}`,

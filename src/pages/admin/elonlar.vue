@@ -1,10 +1,10 @@
 <template>
-  <div class="list">
+  <div class="list overflow-x-auto">
     <a-table
       :columns="columns"
       :data-source="data"
       :pagination="{ pageSize: 50 }"
-      :scroll="{ y: 400 }"
+      :scroll="{ x: columns.length * 150, y: 400 }"
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.title == 'status'">
@@ -113,8 +113,7 @@ const deleteId = (id) => {
 };
 const allElon = () => {
   axios.get("elon/adminAll").then((res) => {
-    console.log(res.data);
-
+    // console.log(res.data);
     if (res.data.success) {
       for (let key of res.data.data) {
         formatNumberWithSpaces(key.price);

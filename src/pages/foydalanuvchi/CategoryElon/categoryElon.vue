@@ -44,7 +44,6 @@ watch(
 );
 onMounted(() => {
   allElonCategory();
-  console.log(route.name);
 });
 </script>
 

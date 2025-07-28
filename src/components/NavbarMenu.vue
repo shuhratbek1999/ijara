@@ -314,7 +314,6 @@ const Menu = (name) => {
 };
 const MainClickCategory = (item) => {
   const { subcategories, ...data } = item;
-  console.log(item);
   if (Array.isArray(subcategories) && subcategories.length > 0) {
     subcategories[0].main_cat = data.name;
     mainCatId.value = data.id;

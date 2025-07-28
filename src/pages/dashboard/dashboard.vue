@@ -87,8 +87,6 @@ const generateMenuItems = (role) => {
     ),
   ];
   if (role === "Admin") {
-    console.log(role, "role");
-
     commonItems.splice(
       1,
       0,
