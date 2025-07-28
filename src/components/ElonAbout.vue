@@ -3,7 +3,7 @@
     class="elonAbout relative w-full bg-gray-50 flex flex-col items-center"
     v-if="Elon"
   >
-    <h2>{{ elon.user }}</h2>
+    <!-- <h2>{{ elon.user }}</h2> -->
     <div
       class="elon_content my-4 w-11/12 flex xx:flex-col xl:flex-row justify-between"
     >
