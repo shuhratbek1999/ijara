@@ -34,7 +34,9 @@ const AllElon = () => {
   axios
     .get("subcategory/sub_elon")
     .then((res) => {
-      ElonAll.value = res.data.data;
+      if (res.data?.data) {
+        ElonAll.value = res.data.data;
+      }
     })
     .catch((err) => {
       message.warning(err);

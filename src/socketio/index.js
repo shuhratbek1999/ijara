@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
-
-const url = "http://localhost:5000";
+import router from "@/router";
+const url = "http://176.53.163.29:7005";
 class SocketioService {
   socket = null;
   joinedRooms = new Set();
@@ -37,6 +37,10 @@ class SocketioService {
     });
 
     this.socket.on("connect_error", (err) => {
+      if (err.message === "Authentication error: Invalid token") {
+        localStorage.removeItem("token"); // eski tokenni o‘chir
+        router.push("/login"); // login sahifaga yo‘naltir
+      }
       console.error("Socket xatosi:", err);
     });
   }

@@ -44,37 +44,6 @@ const filteredElonlar = computed(() => {
     return meetsPriceCriteria && meetsExtraCriteria;
   });
 });
-
-// const filterComputed = computed(() => {
-// 	return SubElon.value.map(sub => {
-// 		return sub.elon.filter(fil => {
-// 			const priceMinFilter =
-// 				filterValue.value.min_price != null
-// 					? fil.price >= filterValue.value.min_price
-// 					: true;
-// 			const priceMaxFilter =
-// 				filterValue.value.max_price != null && filterValue.value.max_price != ''
-// 					? fil.price <= filterValue.value.max_price
-// 					: true;
-// 			if (filterValue.value.filter) {
-// 				marka = filterValue.value.filter.map(x => {
-// 					if (x.value) {
-// 						return x.value;
-// 					}
-// 				});
-// 			}
-// 			const markaFilter = filterValue.value.filter
-// 				? fil.elonExtra.filter(x => x.values.includes(marka.value))
-// 				: true;
-// 			console.log(markaFilter);
-
-// 			// const markaFilter = filterValue.value.filter
-// 			// console.log(fil.elonExtra, filterValue.value.filter);
-// 			//  const brandeFilter =
-// 			return priceMaxFilter && priceMinFilter && markaFilter;
-// 		});
-// 	});
-// });
 watchEffect(() => {
   SubElon.value = [...props.sub.list];
   filterAll.value = props.sub.filter;

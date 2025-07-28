@@ -150,7 +150,7 @@ import ElonImage from "@/components/ElonImage.vue";
 import ElonPrice from "@/components/ElonPrice.vue";
 import MoreInformation from "@/components/MoreInformation.vue";
 import Contact from "@/components/elon/Contact.vue";
-import { useElonStore } from "@/stores/elon";
+import { useElonStore } from "../../stores/elon";
 import Arrows from "@/assets/icons/arrows.svg";
 import { useValidation } from "@/composables/useValidation";
 import { required, minLength } from "@/utils/rules";
@@ -211,10 +211,10 @@ const ModalData = (data) => {
   }
   if (catId && Elon.category_id !== catId) {
     Elon.category_id = catId;
-    Elon.subcategory_id = null;
+    Elon.subcategory_id = 0;
   } else if (subId && Elon.subcategory_id !== subId) {
     Elon.subcategory_id = subId;
-    Elon.category_id = null;
+    Elon.category_id = 0;
   }
 };
 const categorySelect = computed(() => {
@@ -233,24 +233,28 @@ const Buttons = (data) => {
 };
 const Saqlash = async () => {
   // Elon.fields = [];
-  const isValidPrice = await priceRef.value?.validate?.();
-  const isValidInfo = await ContactRef.value?.validate?.();
-  const isValidName = await nameRef.value?.validate?.();
-  if (!isValidPrice && !isValidInfo && !isValidName) {
-    message.error("Validatsiyadan o'tmadi");
-    return;
-  }
-  // console.log(Elon.fields, Elon);
-  if (Elon.fields.length > 0) {
-    Elon.fields = Elon.fields.map((val) => ({
-      field_id: val.field_id ? val.field_id : val.id,
-      values: val.values,
-    }));
-  }
-  if (route.name === "ElonUpdate") {
-    await store.createElon(Elon, false);
-  } else {
-    await store.createElon(Elon);
+  try {
+    const isValidPrice = await priceRef.value?.validate?.();
+    const isValidInfo = await ContactRef.value?.validate?.();
+    const isValidName = await nameRef.value?.validate?.();
+    if (!isValidPrice && !isValidInfo && !isValidName) {
+      message.error("Validatsiyadan o'tmadi");
+      return;
+    }
+    // console.log(Elon.fields, Elon);
+    if (Elon.fields.length > 0) {
+      Elon.fields = Elon.fields.map((val) => ({
+        field_id: val.field_id ? val.field_id : val.id,
+        values: val.values,
+      }));
+    }
+    if (route.name === "ElonUpdate") {
+      await store.createElon(Elon, false);
+    } else {
+      await store.createElon(Elon);
+    }
+  } catch (err) {
+    console.error("Xatolik:", err);
   }
 };
 watch(

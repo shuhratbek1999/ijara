@@ -1,12 +1,14 @@
 <template>
-  <div class="elon__list w-11/12 mx-auto my-4">
+  <div
+    class="elon__list w-11/12 mx-auto my-4"
+    :class="[
+      Array.isArray(Elons) && Elons[0]?.elons
+        ? ''
+        : 'grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4',
+    ]"
+  >
     <div
       class="list__item my-8"
-      :class="[
-        elon?.elons
-          ? ''
-          : 'grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4',
-      ]"
       v-for="(elon, index) in Elons"
       :key="'elon' + index"
     >

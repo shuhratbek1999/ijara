@@ -66,6 +66,7 @@
           <div class="user_contact">
             <button
               class="bg-contactBg my-3 text-white xx:h-8 xx:w-40 xl:w-56 rounded xl:h-10"
+              @click="XabarnomaClick(Elon)"
             >
               Сообщение
             </button>
@@ -143,6 +144,7 @@ import Carousel from "./Carausel.vue";
 import { useRouter } from "vue-router";
 import { Store } from "../stores/store";
 import { useChatStore } from "@/stores/chat";
+const myId = ref(localStorage.getItem("userID"));
 const store = Store();
 const chatStore = useChatStore();
 const router = useRouter();
@@ -156,11 +158,13 @@ const Images = ref([]),
   Elon = ref({}),
   phone = ref(false);
 const XabarnomaClick = (elon) => {
-  store.elonChat(elon);
-  chatStore.setOtherUserId(Number(elon.user?.id));
-  router.push({
-    name: "Chats",
-  });
+  if (myId.value != elon.user?.id) {
+    store.elonChat(elon);
+    chatStore.setOtherUserId(Number(elon.user?.id));
+    router.push({
+      name: "Chats",
+    });
+  }
 };
 watchEffect(() => {
   if (props.elon.images) {
