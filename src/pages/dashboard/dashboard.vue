@@ -42,10 +42,14 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const role = localStorage.getItem("role");
 import {
-  MailOutlined,
+  HomeOutlined,
   AppstoreOutlined,
   SettingOutlined,
-  AccountBookOutlined,
+  ArrowLeftOutlined,
+  UserOutlined,
+  InfoCircleOutlined,
+  TagsOutlined,
+  NotificationOutlined,
 } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
 const state = reactive({
@@ -65,32 +69,25 @@ function getItem(label, key, icon, children, type) {
 }
 const generateMenuItems = (role) => {
   const commonItems = [
-    getItem("E'lon", "sub1", () => h(AppstoreOutlined), [
+    getItem("E'lon", "sub1", () => h(NotificationOutlined), [
       getItem("E'lonlar royhati", "1"),
     ]),
     {
       type: "divider",
     },
-    getItem(
-      "",
-      "sub2",
-      () => h(AppstoreOutlined),
-      [getItem("Personal information", "7")],
-      "group"
-    ),
-    getItem(
-      "",
-      "sub3",
-      () => h(AppstoreOutlined),
-      [getItem("Saytga qaytish", "8")],
-      "group"
-    ),
+    getItem("Personal", "sub2", () => h(UserOutlined), [
+      getItem("Personal information", "7", () => h(InfoCircleOutlined)),
+    ]),
+
+    getItem("Sayt", "sub3", () => h(HomeOutlined), [
+      getItem("Saytga qaytish", "8", () => h(ArrowLeftOutlined)),
+    ]),
   ];
   if (role === "Admin") {
     commonItems.splice(
       1,
       0,
-      getItem("Category", "sub4", () => h(SettingOutlined), [
+      getItem("Category", "sub4", () => h(TagsOutlined), [
         getItem("Sub Category", "3"),
         getItem("Category ro'yhati", "2"),
       ]),

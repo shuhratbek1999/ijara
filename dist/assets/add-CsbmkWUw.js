@@ -1,1 +1,0 @@
-import{_ as t,a as s,c as e}from"./index-77LWITA5.js";const a={},c={class:"buyurtma_list"};function o(r,n,_,d,i,p){return s(),e("div",c," buyurtma berish ")}const f=t(a,[["render",o]]);export{f as default};

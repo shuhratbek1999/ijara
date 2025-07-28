@@ -12,77 +12,77 @@
         <PlusCircleOutlined />
       </template>
     </a-float-button>
-    <Modal
-      :open="open"
-      :styles="styles"
-      @close="handleModalClose"
-      @add="handleSubmit"
-    >
-      <template v-slot:category>
-        <a-form
-          :model="formState"
-          name="category-form"
-          autocomplete="off"
-          class="w-full"
-          @finish="handleSubmit"
-        >
-          <a-form-item
-            name="sub_cat_id"
-            label="Turkum"
-            :rules="[{ required: true, message: 'Iltimos, turkumni tanlang!' }]"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            class="w-8/12"
-          >
-            <a-select
-              v-model:value="formState.sub_cat_id"
-              placeholder="Turkumni tanlang"
-              @change="handleCategoryChange"
-            >
-              <a-select-option
-                v-for="category in SubCategorys"
-                :key="category.id"
-                :value="category.id"
-              >
-                {{ category.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item
-            name="name"
-            label="Kategoriya nomi"
-            :rules="[{ required: true, message: 'Iltimos, nom kiriting!' }]"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            class="w-8/12"
-          >
-            <a-input
-              v-model:value="formState.name"
-              placeholder="Masalan, Elektronika"
-            />
-          </a-form-item>
-          <div class="fields w-full mt-4">
-            <h2 class="text-lg font-semibold mb-2">Maydonlar</h2>
-            <a-select
-              v-model:value="formState.fields"
-              show-search
-              :filter-option="filterOption"
-              mode="multiple"
-              style="width: 100%"
-              placeholder="Maydonlarni tanlang"
-              @change="handleFieldsChange"
-              :options="
-                Fields.map((field) => ({
-                  value: field.id,
-                  label: field.field_name,
-                }))
-              "
-            />
-          </div>
-        </a-form>
-      </template>
-    </Modal>
   </div>
+  <Modal
+    :open="open"
+    :styles="styles"
+    @close="handleModalClose"
+    @add="handleSubmit"
+  >
+    <template v-slot:category>
+      <a-form
+        :model="formState"
+        name="category-form"
+        autocomplete="off"
+        class="w-full"
+        @finish="handleSubmit"
+      >
+        <a-form-item
+          name="sub_cat_id"
+          label="Turkum"
+          :rules="[{ required: true, message: 'Iltimos, turkumni tanlang!' }]"
+          :label-col="{ span: 24 }"
+          :wrapper-col="{ span: 24 }"
+          class="w-8/12"
+        >
+          <a-select
+            v-model:value="formState.sub_cat_id"
+            placeholder="Turkumni tanlang"
+            @change="handleCategoryChange"
+          >
+            <a-select-option
+              v-for="category in SubCategorys"
+              :key="category.id"
+              :value="category.id"
+            >
+              {{ category.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
+          name="name"
+          label="Kategoriya nomi"
+          :rules="[{ required: true, message: 'Iltimos, nom kiriting!' }]"
+          :label-col="{ span: 24 }"
+          :wrapper-col="{ span: 24 }"
+          class="w-8/12"
+        >
+          <a-input
+            v-model:value="formState.name"
+            placeholder="Masalan, Elektronika"
+          />
+        </a-form-item>
+        <div class="fields w-full mt-4">
+          <h2 class="text-lg font-semibold mb-2">Maydonlar</h2>
+          <a-select
+            v-model:value="formState.fields"
+            show-search
+            :filter-option="filterOption"
+            mode="multiple"
+            style="width: 100%"
+            placeholder="Maydonlarni tanlang"
+            @change="handleFieldsChange"
+            :options="
+              Fields.map((field) => ({
+                value: field.id,
+                label: field.field_name,
+              }))
+            "
+          />
+        </div>
+      </a-form>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -112,7 +112,7 @@ const formState = reactive({
 
 const styles = ref({
   title: "Kategoriyani boshqarish",
-  width: "50%",
+  width: "90%",
 });
 
 // Table columns

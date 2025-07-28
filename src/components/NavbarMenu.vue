@@ -202,6 +202,7 @@ import { useChatStore } from "@/stores/chat";
 const router = useRouter();
 const chatStore = useChatStore();
 const emits = defineEmits(["mobilCat"]);
+const token = ref(localStorage.getItem("token"));
 let show = ref(false),
   mobilShow = ref(false),
   searchShow = ref(false),
@@ -297,10 +298,14 @@ const Menu = (name) => {
       router.push({ path: "/login" });
       break;
     case "Elon Joylash":
-      router.push({ path: "/elon_add" });
+      if (token) {
+        router.push({ path: "/elon_add" });
+      } else {
+        router.push({ path: "/login" });
+      }
       break;
     case "Profil":
-      router.push({ path: "/dashboard/elon" });
+      router.push({ path: "/dashboard/user" });
       break;
     case "Home":
       router.push({ path: "/" });

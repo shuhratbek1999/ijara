@@ -17,71 +17,66 @@
         <PlusCircleOutlined />
       </template>
     </a-float-button>
-    <Modal :open="open" :styles="styles" @close="ModalClose" @add="Add">
-      <template v-slot:category>
-        <a-form
-          :model="dataForm"
-          name="basic"
-          autocomplete="off"
-          class="w-full"
-        >
-          <a-form-item
-            :name="['dataForm.main_cat_id']"
-            label="Turkum"
-            :rules="[{ required: true, message: 'Please input category_id!' }]"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            class="w-8/12"
-          >
-            <a-select
-              ref="select"
-              v-model:value="dataForm.main_cat_id"
-              @change="handleChange"
-            >
-              <a-select-option
-                v-for="(item, index) in SubCategorys"
-                :key="index"
-                :value="item.id"
-              >
-                {{ item.name }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-          <a-form-item
-            :name="['name']"
-            label="iltimos, nom kiriting"
-            :rules="[{ required: true, message: 'Please input name!' }]"
-            :label-col="{ span: 24 }"
-            :wrapper-col="{ span: 24 }"
-            class="w-8/12"
-          >
-            <a-input
-              v-model:value="dataForm.name"
-              placeholder="Masalan, Elektronika"
-            />
-          </a-form-item>
-          <div class="fields w-full">
-            <h1>Fields</h1>
-            <a-select
-              show-search
-              :filter-option="filterOption"
-              mode="multiple"
-              style="width: 100%"
-              placeholder="Please select"
-              @change="handleFields"
-            >
-              <a-select-option
-                v-for="cat in Fields"
-                :key="cat.id"
-                :value="cat.id"
-                >{{ cat.field_name }}</a-select-option
-              >
-            </a-select>
-          </div>
-        </a-form>
-      </template>
-    </Modal>
   </div>
+  <Modal :open="open" :styles="styles" @close="ModalClose" @add="Add">
+    <template v-slot:category>
+      <a-form :model="dataForm" name="basic" autocomplete="off" class="w-full">
+        <a-form-item
+          :name="['dataForm.main_cat_id']"
+          label="Turkum"
+          :rules="[{ required: true, message: 'Please input category_id!' }]"
+          :label-col="{ span: 24 }"
+          :wrapper-col="{ span: 24 }"
+          class="w-8/12"
+        >
+          <a-select
+            ref="select"
+            v-model:value="dataForm.main_cat_id"
+            @change="handleChange"
+          >
+            <a-select-option
+              v-for="(item, index) in SubCategorys"
+              :key="index"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
+          :name="['name']"
+          label="iltimos, nom kiriting"
+          :rules="[{ required: true, message: 'Please input name!' }]"
+          :label-col="{ span: 24 }"
+          :wrapper-col="{ span: 24 }"
+          class="w-8/12"
+        >
+          <a-input
+            v-model:value="dataForm.name"
+            placeholder="Masalan, Elektronika"
+          />
+        </a-form-item>
+        <div class="fields w-full">
+          <h1>Fields</h1>
+          <a-select
+            show-search
+            :filter-option="filterOption"
+            mode="multiple"
+            style="width: 100%"
+            placeholder="Please select"
+            @change="handleFields"
+          >
+            <a-select-option
+              v-for="cat in Fields"
+              :key="cat.id"
+              :value="cat.id"
+              >{{ cat.field_name }}</a-select-option
+            >
+          </a-select>
+        </div>
+      </a-form>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -109,7 +104,7 @@ const dataForm = reactive({
 let open = ref(false),
   styles = ref({
     title: "Kategoriyani tanlang",
-    width: "50%",
+    width: "90%",
   });
 const columns = [
   {
