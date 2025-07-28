@@ -1,1 +1,0 @@
-import{_ as t,a as s,c as e}from"./index-BxFgR4VW.js";const o={},a={class:"buyurtma_list"};function c(r,n,_,i,p,u){return s(),e("div",a," buyurtma royhat ")}const d=t(o,[["render",c]]);export{d as default};

@@ -3,7 +3,7 @@
     class="flex max-sm:flex-col sm:flex-col md:flex-row lg:flex-row max-sm:items-center md:items-start h-screen"
   >
     <!-- Chap: kelgan foydalanuvchilar -->
-    <div class="border-r p-4 overflow-y-auto max-sm:w-11/12 md:w-3/12">
+    <div class="border-r p-4 max-sm:w-11/12 md:w-3/12">
       <div
         v-for="user in receivedUsers"
         :key="user.id"

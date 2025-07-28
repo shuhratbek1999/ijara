@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="message-input grid gap-2">
+    <div class="p-2 border-t-0.1 bg-white flex justify-between">
       <button @click="sendImg">
         <FileIcon />
       </button>
@@ -43,8 +43,13 @@
         v-model="newMessage"
         @keyup.enter="sendNewMessage"
         placeholder="Xabar yozing..."
+        class="py-[10px] px-4 rounded-[20px] outline-0 w-2/3"
       />
-      <button @click="sendNewMessage" :disabled="!newMessage.trim()">
+      <button
+        @click="sendNewMessage"
+        :disabled="!newMessage.trim()"
+        class="bg-[#4a76a8] text-white ml-2 py-[10px] px-[15px] rounded-[20px] disabled:bg-[#cccccc] cursor-not-allowed"
+      >
         <SendIcon />
       </button>
     </div>
@@ -294,7 +299,7 @@ watch(
   text-align: right;
 }
 
-.message-input {
+/* .message-input {
   padding: 10px;
   border-top: 1px solid #ddd;
   display: flex;
@@ -307,7 +312,7 @@ watch(
   border: 1px solid #ddd;
   border-radius: 20px;
   outline: none;
-}
+} */
 
 .message-input button {
   margin-left: 10px;
