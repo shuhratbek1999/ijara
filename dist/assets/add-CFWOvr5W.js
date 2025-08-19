@@ -1,1 +1,0 @@
-import{_ as t,o as s,a as e}from"./index-BDffYq90.js";const o={},a={class:"buyurtma_list"};function r(c,n,_,d,i,p){return s(),e("div",a," buyurtma berish ")}const f=t(o,[["render",r]]);export{f as default};

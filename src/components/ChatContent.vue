@@ -240,6 +240,8 @@ const getMessage = async () => {
       myId: currentUserId.value,
       otherUserId: props.otherUserId,
     });
+    console.log(messages.value);
+
     checkUnreadAndMarkAsRead();
     scrollToBottom();
   } catch (err) {
@@ -249,13 +251,18 @@ const getMessage = async () => {
 
 const onReceverMessage = async () => {
   await SocketioService.onReceiveMessage((data) => {
-    messages.value.push({
-      receiverId: data.receiverId,
-      sender_id: data.sender_id,
-      message: data.message,
-      time: data.time,
-      read: data.read,
-    });
+    // console.log(data);
+    if (data && typeof data == "object") {
+      if (messages.value) {
+        messages.value.push({
+          receiverId: data.receiverId,
+          sender_id: data.sender_id,
+          message: data.message,
+          time: data.time,
+          read: data.read,
+        });
+      }
+    }
 
     if (data.sender_id == props.otherUserId && !data.read) {
       SocketioService.markAsRead({

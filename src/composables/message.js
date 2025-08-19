@@ -12,7 +12,7 @@ export async function getMessages({ myId, otherUserId }) {
       },
     }
   );
-  return res.data.data;
+  return res.data.data ? res.data.data : [];
 }
 export async function getMyIncomingUsers() {
   const myId = localStorage.getItem("userID");

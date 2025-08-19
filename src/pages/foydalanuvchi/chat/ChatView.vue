@@ -123,9 +123,11 @@ import { ref, onMounted, watch } from "vue";
 import ChatContent from "@/components/ChatContent.vue";
 import { useChatStore } from "@/stores/chat";
 import { getMyIncomingUsers } from "@/composables/message";
+import { useRouter } from "vue-router";
 const chatStore = useChatStore();
 const receivedUsers = ref([]);
 const selectedUser = ref(null);
+const router = useRouter();
 let search = ref(""),
   selected = ref(false);
 const selectUser = (user) => {
@@ -141,14 +143,19 @@ const chatClose = () => {
 const getMessage = async () => {
   try {
     receivedUsers.value = await getMyIncomingUsers();
+    console.log(receivedUsers.value);
+    if (receivedUsers.value?.error_code != 401) {
+      receivedUsers.value = receivedUsers.value.map((user) => ({
+        ...user,
+        online: Math.random() > 0.3, // 70% online bo'lishi uchun
+        last_message: user.last_message || "No messages yet",
+        last_message_time: user.last_message_time || new Date(),
+      }));
+      selected.value = !selected.value;
+    } else {
+      router.push("/login");
+    }
     // Mock online status - aslida bu backenddan kelishi kerak
-    receivedUsers.value = receivedUsers.value.map((user) => ({
-      ...user,
-      online: Math.random() > 0.3, // 70% online bo'lishi uchun
-      last_message: user.last_message || "No messages yet",
-      last_message_time: user.last_message_time || new Date(),
-    }));
-    selected.value = !selected.value;
   } catch (error) {
     console.error("Error fetching users:", error);
   }
