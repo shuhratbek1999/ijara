@@ -868,6 +868,19 @@ onMounted(() => {
   }
 }
 /* Responsive Design */
+@media (min-width: 1024px) {
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 0.5rem 0;
+    z-index: 90;
+  }
+}
 @media (max-width: 1024px) {
   .brand-section {
     min-width: auto;

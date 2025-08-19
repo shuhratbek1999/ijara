@@ -1,1 +1,0 @@
-import{N as f,r as l}from"./index-CdO7SmOX.js";const a=f("elon",()=>{let e=[],t=l(null),o=l({});function r(n){e.length>0?e.findIndex(s=>s.id===n.id)===-1&&e.push(n):e.push(n)}function i(n){o.value={...n}}return{addFavorite:r,FavoritesElon:e,userID:t,elonChat:i,chatElon:o}});export{a as S};
