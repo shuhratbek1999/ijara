@@ -34,7 +34,7 @@
 
       <div
         v-if="receivedUsers.length > 0"
-        class="divide-y divide-gray-200 dark:divide-gray-700"
+        class="divide-y divide-gray-200 dark:divide-gray-700 my-2"
       >
         <div
           v-for="user in receivedUsers"
@@ -82,13 +82,11 @@
 
     <!-- Chat content area -->
     <div class="chat-content flex-1 flex flex-col">
-      <div
-        v-if="selectedUser || chatStore.otherUserId"
-        class="flex-1 overflow-hidden"
-      >
+      <div v-if="selected" class="flex-1 overflow-hidden">
         <ChatContent
           :otherUserId="selectedUser?.sender_id || chatStore.otherUserId"
           :key="selectedUser?.sender_id || chatStore.otherUserId"
+          @chatClose="chatClose"
         />
       </div>
       <div
@@ -129,10 +127,16 @@ const chatStore = useChatStore();
 const receivedUsers = ref([]);
 const selectedUser = ref(null);
 let search = ref(""),
-  msgCount = ref(0);
+  selected = ref(false);
 const selectUser = (user) => {
   selectedUser.value = user;
   chatStore.otherUserId = user.sender_id;
+  selected.value = true;
+};
+const chatClose = () => {
+  selectedUser.value = {};
+  selected.value = false;
+  // chatStore.otherUserId = 0;
 };
 const getMessage = async () => {
   try {
@@ -144,7 +148,7 @@ const getMessage = async () => {
       last_message: user.last_message || "No messages yet",
       last_message_time: user.last_message_time || new Date(),
     }));
-    console.log(receivedUsers.value);
+    selected.value = !selected.value;
   } catch (error) {
     console.error("Error fetching users:", error);
   }

@@ -8,8 +8,7 @@
         <div
           class="w-10 h-10 rounded-full bg-indigo-400 flex items-center justify-center text-white font-bold mr-3"
         >
-          <!-- {{ otherUserId.charAt(0).toUpperCase() }} -->
-          {{ !otherUserId ? otherUserId.charAt(0).toUpperCase() : "" }}
+          {{ otherUserId }}
         </div>
         <div>
           <h2 class="font-semibold text-lg">
@@ -28,7 +27,7 @@
           </div>
         </div>
       </div>
-      <button class="text-white hover:text-gray-200">
+      <button class="text-white hover:text-gray-200" @click="CloseChat">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5"
@@ -143,6 +142,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { useRoute } from "vue-router";
@@ -153,7 +153,7 @@ import { getMessages } from "../composables/message";
 const props = defineProps({
   otherUserId: [String, Number],
 });
-
+const emit = defineEmits(["chatClose"]);
 const chatStore = useChatStore();
 const route = useRoute();
 const messagesContainer = ref(null);
@@ -163,6 +163,10 @@ const currentUserId = ref(localStorage.getItem("userID"));
 const messages = ref([]);
 const newMessage = ref("");
 const otherUserOnline = ref(false);
+
+const CloseChat = () => {
+  emit("chatClose");
+};
 
 // Methods
 const sendNewMessage = async () => {
@@ -194,20 +198,20 @@ const scrollToBottom = () => {
     }
   });
 };
+
 const sendImg = () => {};
+
 const socketRead = () => {
   SocketioService.onMessagesRead(({ receiverId }) => {
-    // console.log(messages.value, receiverId);
     messages.value = messages.value.map((msg) => {
       if (msg.receiverId == receiverId) {
-        // console.log(msg, readerId);
-        // chatStore.messageCount -= 1;
         return { ...msg, read: true };
       }
       return msg;
     });
   });
 };
+
 const checkUnreadAndMarkAsRead = () => {
   if (Array.isArray(messages.value)) {
     const unreadMessages = messages.value.filter(
@@ -237,11 +241,12 @@ const getMessage = async () => {
       otherUserId: props.otherUserId,
     });
     checkUnreadAndMarkAsRead();
-    // scroolChat();
+    scrollToBottom();
   } catch (err) {
     console.error("Xatolik xabarlarni olishda:", err);
   }
 };
+
 const onReceverMessage = async () => {
   await SocketioService.onReceiveMessage((data) => {
     messages.value.push({
@@ -252,24 +257,23 @@ const onReceverMessage = async () => {
       read: data.read,
     });
 
-    // Faqat boshqa userdan kelgan bo‘lsa va hali o‘qilmagan bo‘lsa
     if (data.sender_id == props.otherUserId && !data.read) {
       SocketioService.markAsRead({
         senderId: data.sender_id,
         receiverId: data.receiverId,
       });
 
-      // 🔄 messages ichida mark as read holatini yangilaymiz
       messages.value = messages.value.map((msg) => {
         if (msg.sender_id == props.otherUserId && !msg.read) {
           return { ...msg, read: true };
         }
         return msg;
       });
-      // scroolChat();
     }
+    scrollToBottom();
   });
 };
+
 // Lifecycle hooks
 onMounted(async () => {
   if (props.otherUserId) {
@@ -283,19 +287,22 @@ onMounted(async () => {
   await checkUnreadAndMarkAsRead();
   await getMessage();
 });
+
 watch(
   () => chatStore.chatMessage,
   (val) => {
     if (Object.keys(val).length != 0 && messages.value.length == 0) {
       messages.value.push(val);
+      scrollToBottom();
     }
   },
   { immediate: true }
 );
+
 watch(
   () => props.otherUserId,
   () => {
-    getMessage(); // yangi user uchun xabarlarni olib kelish
+    getMessage();
   }
 );
 
@@ -306,21 +313,20 @@ watch(
   },
   { deep: true }
 );
-// onUnmounted(() => {
-//   SocketioService.disconnect();
-// });
 </script>
 
 <style scoped>
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-height: 100vh;
+  height: 100%;
+  min-height: 0; /* 🔥 MUHIM: Flex itemlarda overflow uchun */
 }
 
 .messages-area {
-  height: calc(100vh - 120px);
+  flex: 1;
+  min-height: 0; /* 🔥 MUHIM: Overflow ishlashi uchun */
+  overflow-y: auto;
 }
 
 .message-bubble {
@@ -359,17 +365,60 @@ watch(
   border-right-color: #374151;
 }
 
-@media (max-width: 640px) {
+/* 🔥 YANGI: Mobile responsive styles */
+@media (max-width: 768px) {
+  .chat-container {
+    height: 100vh;
+    max-height: -webkit-fill-available; /* 🔥 Mobile viewport fix */
+  }
+
+  .messages-area {
+    height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
+  }
+
+  .message-input {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    z-index: 10;
+  }
+
   .message-bubble {
-    max-width: 70%;
+    max-width: 85% !important;
   }
 
   .chat-header {
     padding: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+}
+
+@media (max-width: 640px) {
+  .messages-area {
+    padding: 10px;
   }
 
   .message-input {
-    padding: 10px;
+    padding: 8px;
+  }
+
+  input {
+    font-size: 16px; /* 🔥 iOS da zoom oldini olish */
+  }
+}
+
+/* 🔥 YANGI: Inputni har doim ko'rinadigan qilish */
+.message-input {
+  flex-shrink: 0;
+}
+
+/* 🔥 YANGI: Virtual keyboard paytida inputni tepaga surish */
+@media (max-height: 500px) {
+  .messages-area {
+    height: calc(100vh - 100px);
   }
 }
 </style>

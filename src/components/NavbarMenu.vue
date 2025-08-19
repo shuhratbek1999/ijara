@@ -160,7 +160,7 @@
     </div>
 
     <!-- Mobile Catalog -->
-    <MobileCatalog v-if="mobilShow" />
+    <MobileCatalog v-if="mobilShow" @close="close" />
   </header>
 </template>
 
@@ -216,9 +216,8 @@ const Icons = ref([
 ]);
 
 // Methods
-const Catalog = () => {
+const close = () => {
   mobilShow.value = !mobilShow.value;
-  emits("mobilCat", mobilShow.value);
 };
 
 const search = () => {
@@ -341,7 +340,7 @@ onMounted(() => {
 
 /* Top Navigation */
 .top-nav {
-  background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
   color: white;
   padding: 0.5rem 0;
   font-size: 0.875rem;
