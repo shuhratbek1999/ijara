@@ -126,7 +126,11 @@ const Shaxsiy = (text) => {
                 : field.category_fields?.field_type,
             ][0]
           "
-          :class="[field.field_type == 'checkbox' ? 'w-6 h-6' : 'w-7/12 h-10']"
+          :class="[
+            field.field_type == 'checkbox'
+              ? 'w-6 h-6'
+              : 'max-sm:w-11/12 md:w-3/12 h-10',
+          ]"
           class="mr-2 bg-gray-200 focus:outline-none indent-4"
         />
         <label for="" v-if="field.category_fields">{{

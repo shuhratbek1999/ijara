@@ -68,7 +68,7 @@ defineExpose({ validate });
         ref="nameRef"
         :rules="[required(), minLength(4, 'Eng kamida 4 ta belgi')]"
         placeholder="Ismingizni kiriting..."
-        class="w-80 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
+        class="max-sm:w-11/12 md:w-5/12 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
       />
 
       <label>E-pochta manzili*</label> <br />
@@ -77,7 +77,7 @@ defineExpose({ validate });
         ref="emailRef"
         :rules="[required(), email()]"
         placeholder="Email kiriting..."
-        class="w-80 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
+        class="max-sm:w-11/12 md:w-5/12 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
       />
 
       <label>Telefon raqam*</label> <br />
@@ -87,7 +87,7 @@ defineExpose({ validate });
         :rules="[required(), minLength(9, 'Eng kamida 9 ta belgi')]"
         type="phone"
         placeholder="Telefon kiriting..."
-        class="w-80 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
+        class="max-sm:w-11/12 md:w-5/12 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
       />
     </form>
   </div>

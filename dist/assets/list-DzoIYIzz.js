@@ -1,0 +1,1 @@
+import{_ as t,o as s,a as o}from"./index-CdO7SmOX.js";const e={},a={class:"buyurtma_list"};function r(c,n,_,i,p,u){return s(),o("div",a," buyurtma royhat ")}const d=t(e,[["render",r]]);export{d as default};

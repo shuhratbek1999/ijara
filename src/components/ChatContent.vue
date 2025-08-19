@@ -240,8 +240,6 @@ const getMessage = async () => {
       myId: currentUserId.value,
       otherUserId: props.otherUserId,
     });
-    console.log(messages.value);
-
     checkUnreadAndMarkAsRead();
     scrollToBottom();
   } catch (err) {

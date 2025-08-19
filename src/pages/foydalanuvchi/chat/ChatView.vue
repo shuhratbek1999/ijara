@@ -143,7 +143,6 @@ const chatClose = () => {
 const getMessage = async () => {
   try {
     receivedUsers.value = await getMyIncomingUsers();
-    console.log(receivedUsers.value);
     if (receivedUsers.value?.error_code != 401) {
       receivedUsers.value = receivedUsers.value.map((user) => ({
         ...user,

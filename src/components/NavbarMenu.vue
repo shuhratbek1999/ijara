@@ -140,7 +140,7 @@
     </transition>
 
     <!-- Mobile Bottom Navigation -->
-    <div class="mobile-nav">
+    <div class="mobile-nav sm:hidden md:flex">
       <button @click="Home('Home')" class="mobile-nav-item">
         <HomeOutlined />
         <span>Главная</span>
@@ -157,8 +157,40 @@
         <UserOutlined />
         <span>Профиль</span>
       </button>
+      <button class="mobile-nav-item burger-menu-btn" @click="toggleBurgerMenu">
+        <i class="material-icons">menu</i>
+        <span>Ещё</span>
+      </button>
     </div>
-
+    <div
+      class="burger-menu-overlay"
+      :class="{ active: burgerMenuOpen }"
+      @click="closeBurgerMenu"
+    >
+      <div class="burger-menu-content" @click.stop>
+        <div class="burger-menu-header">
+          <h3>Меню</h3>
+          <button class="close-btn" @click="closeBurgerMenu">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+        <div class="burger-menu-items">
+          <button @click="navigateTo('Elon Joylash')" class="burger-menu-item">
+            <i class="material-icons">add_circle</i>
+            <span>Elon Joylash</span>
+          </button>
+          <button @click="navigateTo('Chat')" class="burger-menu-item">
+            <i class="material-icons">chat</i>
+            <span>Chat</span>
+            <span v-if="msgCount > 0" class="notification-badge">{{
+              msgCount
+            }}</span>
+          </button>
+          <!-- Boshqa menyu elementlari kerak bo'lsa -->
+        </div>
+      </div>
+    </div>
+    <!-- {{ mobilShow }} -->
     <!-- Mobile Catalog -->
     <MobileCatalog v-if="mobilShow" @close="close" />
   </header>
@@ -185,7 +217,7 @@ import { useChatStore } from "@/stores/chat";
 const router = useRouter();
 const chatStore = useChatStore();
 const emits = defineEmits(["mobilCat"]);
-
+const burgerMenuOpen = ref(false);
 const token = ref(localStorage.getItem("token"));
 let show = ref(false),
   mobilShow = ref(false),
@@ -219,7 +251,16 @@ const Icons = ref([
 const close = () => {
   mobilShow.value = !mobilShow.value;
 };
-
+const toggleBurgerMenu = () => {
+  burgerMenuOpen.value = !burgerMenuOpen.value;
+};
+const closeBurgerMenu = () => {
+  burgerMenuOpen.value = false;
+};
+const navigateTo = (name) => {
+  closeBurgerMenu();
+  Menu(name); // Sizning mavjud Menu funksiyangiz
+};
 const search = () => {
   searchText.value = "";
 };
@@ -302,9 +343,6 @@ const MainCategory = () => {
       message.warning(err.message);
     });
 };
-onUnmounted(() => {
-  mobilShow.value = false;
-});
 // Watchers
 watch(
   () => chatStore.messageCount,
@@ -619,7 +657,7 @@ onMounted(() => {
 }
 
 /* Mobile Navigation */
-.mobile-nav {
+/* .mobile-nav {
   display: none;
   position: fixed;
   bottom: 0;
@@ -629,7 +667,7 @@ onMounted(() => {
   border-top: 1px solid #e5e7eb;
   padding: 0.5rem 0;
   z-index: 90;
-}
+} */
 
 .mobile-nav-item {
   display: flex;
@@ -670,13 +708,181 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(-10px);
 }
+.burger-menu-btn {
+  position: relative;
+}
 
+/* Burger menu overlay */
+.burger-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.burger-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Burger menu content */
+.burger-menu-content {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding: 20px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 1001;
+}
+
+.burger-menu-overlay.active .burger-menu-content {
+  transform: translateY(0);
+}
+
+.burger-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.burger-menu-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.burger-menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.burger-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: none;
+  border: none;
+  text-align: left;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.burger-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.burger-menu-item i {
+  font-size: 24px;
+  color: #2563eb;
+}
+
+.burger-menu-item span {
+  font-size: 16px;
+  color: #333;
+}
+
+.burger-menu-item .notification-badge {
+  position: absolute;
+  right: 15px;
+  background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 6px;
+  color: #4b5563;
+  font-size: 12px;
+  flex: 1;
+  cursor: pointer;
+  max-width: 20%;
+}
+
+.mobile-nav-item i {
+  font-size: 20px;
+}
+
+@media (max-width: 380px) {
+  .mobile-nav-item {
+    font-size: 11px;
+    padding: 4px;
+  }
+
+  .mobile-nav-item i {
+    font-size: 18px;
+  }
+
+  .burger-menu-content {
+    padding: 15px;
+  }
+
+  .burger-menu-item {
+    padding: 12px;
+  }
+
+  .burger-menu-item i {
+    font-size: 22px;
+  }
+
+  .burger-menu-item span {
+    font-size: 15px;
+  }
+}
 /* Responsive Design */
 @media (max-width: 1024px) {
   .brand-section {
     min-width: auto;
   }
-
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 0.5rem 0;
+    z-index: 90;
+  }
   .user-menu {
     display: none;
   }
@@ -689,6 +895,17 @@ onMounted(() => {
 @media (max-width: 768px) {
   .top-nav {
     display: none;
+  }
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    padding: 0.5rem 0;
+    z-index: 90;
   }
 
   .main-nav {
