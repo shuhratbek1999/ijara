@@ -9,6 +9,7 @@ import router from "./router";
 import SocketioService from "./socketio/index";
 const app = createApp(App);
 let BASE_URL = "http://176.53.163.29:7005/api/v1/admin-app/",
+  // let BASE_URL = "http://localhost:5000/api/v1/admin-app/",
   Bearer = "Bearer ";
 axios.interceptors.request.use(
   function (config) {

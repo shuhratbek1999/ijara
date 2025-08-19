@@ -26,13 +26,13 @@
 </template>
 
 <script setup>
-import { h, onMounted, reactive, render, ref } from "vue";
+import { h, onMounted, reactive, render, ref, onUnmounted } from "vue";
 import { PlusCircleOutlined } from "@ant-design/icons-vue";
 import { Popconfirm, message } from "ant-design-vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import moment from "moment";
-import Socket from "../../socketio/index";
+import SocketioService from "../../socketio/index";
 const router = useRouter();
 const columns = [
   {
@@ -78,19 +78,17 @@ let data = ref([]);
 const updateMulk = (id) => {
   router.push("/elon_update/" + id);
 };
-const Tasdiqlash = (data) => {
-  Socket.socket.emit("updateStatus", data.id);
-  message.success("confirmation");
+const Tasdiqlash = async (data) => {
+  try {
+    await SocketioService.updateElonStatus(data.id);
+    message.success("E'lon tasdiqlandi!");
+  } catch (error) {
+    message.error(error.message || "Tasdiqlashda xatolik");
+  }
 };
 const cancel = (e) => {
   message.error("Click on No");
 };
-Socket.socket.on("newElon", () => {
-  allElon();
-});
-Socket.socket.on("updateElon", () => {
-  allElon();
-});
 const deleteId = (id) => {
   axios.delete("elon/delete/" + id).then((res) => {
     if (res.data.success) {
@@ -116,6 +114,17 @@ const allElon = () => {
 };
 onMounted(() => {
   allElon();
+  // SocketioService.connect();
+  SocketioService.socket.on("newElon", () => {
+    allElon();
+  });
+  SocketioService.socket.on("updateElon", () => {
+    allElon();
+  });
+});
+onUnmounted(() => {
+  SocketioService.socket.off("newElon");
+  SocketioService.socket.off("updateElon");
 });
 </script>
 

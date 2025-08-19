@@ -1,82 +1,63 @@
 <template>
-  <div class="mulk_add flex flex-col items-center bg-slate-200">
-    <div class="forma w-full flex flex-col items-center justify-center">
-      <h1 class="w-11/12 my-5 text-3xl font-bold">Reklama yarating</h1>
-      <div class="name__category w-11/12 bg-white p-4 rounded-xl my-4">
-        <h2 class="text-2xl font-bold font-sans my-2">
+  <div class="mulk_add min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h1 class="text-3xl font-bold text-gray-800 mb-8">Reklama yarating</h1>
+
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">
           Batafsil tasvirlab bering
         </h2>
-        <div class="form__name">
-          <label for="">ismni belgileng*</label> <br />
+
+        <!-- Nomi -->
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Nomi*</label>
           <BaseInput
-            :placeholder="'Masalan, Iphone 12 kafolatli'"
+            placeholder="Masalan, Iphone 12 kafolatli"
             ref="nameRef"
-            height="40px"
+            height="48px"
             :rules="[
               required(),
-              minLength(20, 'kamida 20ta belgi bolishi kerak'),
+              minLength(20, 'Kamida 20ta belgi boʻlishi kerak'),
             ]"
             v-model="Elon.name"
-            class="bg-gray-200 focus:outline-none indent-4 max-sm:w-full md:w-2/3 xl:w-1/2 lg:w-1/2"
-          ></BaseInput>
+            class="w-full md:w-2/3 lg:w-1/2 bg-gray-100 border border-gray-300 rounded-lg px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
         </div>
-        <div class="form_category mt-4">
-          <label cl for="">Turkum*</label> <br />
+
+        <!-- Kategoriya -->
+        <div class="mb-6">
+          <label class="block text-gray-700 font-medium mb-2">Turkum*</label>
           <div
-            class="category flex xl:w-[30%] md:w-1/2 lg:w-1/3 sm:w-2/3 justify-between items-center bg-gray-200 p-4 cursor-pointer"
             @click="ModalOpen"
+            class="bg-gray-100 hover:bg-gray-200 transition-colors rounded-lg p-4 cursor-pointer border border-gray-300 w-full md:w-1/2 lg:w-1/3"
           >
             <div
-              class="category_select flex w-80 justify-between items-center"
-              v-if="Object.keys(UpdateCategory).length == 0"
+              v-if="!Object.keys(UpdateCategory).length"
+              class="flex justify-between items-center"
             >
-              <span>Kategoriyani tanlang</span>
-              <img :src="Arrows" alt="Arrows" class="w-5 h-5" />
+              <span class="text-gray-500">Kategoriyani tanlang</span>
+              <img :src="Arrows" alt="Arrows" class="w-5 h-5 text-gray-400" />
             </div>
-            <div
-              class="update_cat w-full flex justify-between items-center"
-              v-else
-            >
-              <div
-                class="img w-10 h-10 rounded-full bg-red-100 flex justify-center items-center"
-              >
-                <img
-                  :src="categorySelect?.icon"
-                  alt="main icon"
-                  class="w-6 h-6"
-                />
+            <div v-else class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="bg-red-100 p-2 rounded-full">
+                  <img :src="categorySelect?.icon" alt="Icon" class="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 class="font-bold">
+                    {{
+                      categorySelect?.categories?.name || categorySelect?.name
+                    }}
+                  </h3>
+                  <p class="text-sm text-gray-500">
+                    {{
+                      categorySelect?.subcategories?.name ||
+                      categorySelect?.sub_cat?.name
+                    }}
+                  </p>
+                </div>
               </div>
-              <div class="info">
-                <h2 class="font-bold font-sans" v-if="!categorySelect?.sub_cat">
-                  {{ categorySelect?.categories?.name }}
-                </h2>
-                <h2 class="font-bold font-sans" v-else>
-                  {{ categorySelect?.name }}
-                </h2>
-                <span
-                  class="text-sm font-sans"
-                  v-if="categorySelect?.subcategories"
-                  >{{ categorySelect?.subcategories?.name }}/</span
-                >
-                <span class="text-sm font-sans" v-else>{{
-                  categorySelect?.sub_cat?.name
-                }}</span>
-                <span v-if="categorySelect?.main_cat">
-                  {{ categorySelect?.main_cat?.name }}
-                </span>
-                /
-                <span
-                  class="text-sm font-sans"
-                  v-if="!categorySelect?.sub_cat"
-                  >{{ categorySelect?.name }}</span
-                >
-                <span class="text-sm font-sans" v-else>{{
-                  categorySelect?.sub_cat?.main_cat?.name
-                }}</span>
-              </div>
-              <div class="button underline-offset-4 underline">
-                O'zgartirish
-              </div>
+              <span class="text-blue-500 underline">O'zgartirish</span>
             </div>
           </div>
           <BaseModal
@@ -86,29 +67,33 @@
             @close="ModalClose"
             @data="ModalData"
             width="max-w-5xl"
-          ></BaseModal>
+          />
         </div>
       </div>
-      <div class="img w-11/12 bg-white rounded-xl p-4">
-        <h1 class="text-2xl font-sans font-bold">Surat</h1>
-        <br />
-        <span class="text-sm font-sans my-4 inline-block"
-          >Birinchi fotosurat e'lonning muqovasida bo'ladi. Tartibni
-          o'zgartirish uchun torting.</span
-        >
+
+      <!-- Rasm qismi -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Rasmlar</h2>
+        <p class="text-gray-600 mb-4">
+          Birinchi fotosurat e'lonning muqovasida bo'ladi. Tartibni o'zgartirish
+          uchun torting.
+        </p>
         <ElonImage v-model="Elon.images" />
       </div>
-      <div class="description w-11/12 bg-white rounded-xl p-4 my-4">
-        <h2 class="font-sans text-2xl my-4 font-bold">Tavsif*</h2>
+
+      <!-- Tavsif -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Tavsif*</h2>
         <textarea
           v-model="Elon.description"
-          class="md:w-9/12 max-sm:w-full h-52 p-2 bg-gray-200 rounded focus:outline-none indent-3"
+          class="w-full h-48 p-4 bg-gray-100 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           placeholder="Reklamadan qanday tafsilotlarni bilmoqchi ekanligingizni o'ylab ko'ring va ularni tavsif qo'shing"
         ></textarea>
-        <p v-if="error" class="text-red-500 mt-1">{{ error }}</p>
-        <br />
+        <p v-if="error" class="text-red-500 mt-2">{{ error }}</p>
       </div>
-      <div class="price w-11/12 bg-white rounded-xl p-4 my-4">
+
+      <!-- Narx -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <ElonPrice
           v-model:price="Elon.price"
           v-model:pay_type="Elon.pay_type"
@@ -116,32 +101,51 @@
           ref="priceRef"
         />
       </div>
-      <div class="information w-11/12 bg-white rounded-xl p-4 my-4">
+
+      <!-- Qo'shimcha ma'lumotlar -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <MoreInformation v-model:fields="Elon.fields" @buttons="Buttons" />
       </div>
-      <div class="adress w-11/12 bg-white rounded-xl p-4 my-4">
-        <h2 class="text-2xl font-sans font-bold">Manzil*</h2>
+
+      <!-- Manzil -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Manzil*</h2>
         <BaseInput
           v-model="Elon.adress"
           type="text"
-          class="w-80 bg-gray-200 focus:outline-none h-10 indent-4 rounded-sm my-3"
-          placeholder="manzil kiriting..."
+          class="w-full md:w-80 bg-gray-100 border border-gray-300 rounded-lg px-4 h-12 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Manzil kiriting..."
         />
       </div>
-      <div class="contact w-11/12 bg-white rounded-xl p-4 my-4">
+
+      <!-- Kontakt -->
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <Contact ref="ContactRef" v-model="Elon" @contact="ContactInfo" />
       </div>
-      <div
-        class="buttons w-11/12 bg-white rounded-xl p-4 my-4 flex justify-end"
-      >
-        <BaseButton variant="primary" @click="Saqlash">Saqlash</BaseButton>
+
+      <!-- Tugmalar -->
+      <div class="bg-white rounded-xl shadow-md p-6 flex justify-end">
+        <BaseButton
+          variant="primary"
+          @click="Saqlash"
+          class="px-8 py-3 text-lg font-medium rounded-md"
+        >
+          Saqlash
+        </BaseButton>
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
-import { reactive, ref, watchEffect, markRaw, computed, watch } from "vue";
+import {
+  reactive,
+  ref,
+  watchEffect,
+  markRaw,
+  computed,
+  watch,
+  onMounted,
+} from "vue";
 import BaseInput from "@/components/BaseInput.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseModal from "@/components/BaseModal.vue";
@@ -159,6 +163,7 @@ import MobileCatalog from "@/components/MobileCatalog.vue";
 const store = useElonStore();
 import { message } from "ant-design-vue";
 import { useRoute } from "vue-router";
+import axios from "axios";
 const { error, validate } = useValidation([
   required("Izoh shart"),
   minLength(30, "Kamida 30 ta belgi bo‘lishi kerak"),
@@ -232,21 +237,21 @@ const Buttons = (data) => {
   Elon.holati = stateBtn;
 };
 const Saqlash = async () => {
-  // Elon.fields = [];
   try {
     const isValidPrice = await priceRef.value?.validate?.();
     const isValidInfo = await ContactRef.value?.validate?.();
     const isValidName = await nameRef.value?.validate?.();
-    if (!isValidPrice && !isValidInfo && !isValidName) {
-      message.error("Validatsiyadan o'tmadi");
+
+    if (!isValidPrice || !isValidInfo || !isValidName) {
+      message.error("Maydonlarni to'ldirishda xatolik!");
       return;
     }
-    // console.log(Elon.fields, Elon);
     if (Elon.fields.length > 0) {
       Elon.fields = Elon.fields.map((val) => ({
         field_id: val.field_id ? val.field_id : val.id,
         values: val.values,
       }));
+      console.log(Elon.fields);
     }
     if (route.name === "ElonUpdate") {
       await store.createElon(Elon, false);
@@ -254,9 +259,18 @@ const Saqlash = async () => {
       await store.createElon(Elon);
     }
   } catch (err) {
-    console.error("Xatolik:", err);
+    console.error("Saqlashda xato:", err);
+    message.error(err.message || "E'lonni saqlashda xatolik yuz berdi");
   }
 };
+onMounted(async () => {
+  let userID = localStorage.getItem("userID");
+  let user = await axios.get("user/one/" + userID);
+  if (user.data?.data) {
+    Elon.contact_name = user.data?.data?.name;
+    Elon.email = user.data?.data?.email;
+  }
+});
 watch(
   () => props.update,
   (val) => {
@@ -285,7 +299,6 @@ watchEffect(() => {
   }
 });
 </script>
-
 <style scoped>
 .ant-upload-select-picture-card i {
   font-size: 32px;
@@ -294,5 +307,59 @@ watchEffect(() => {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+/* Asosiy konteyner */
+.mulk_add {
+  background-color: #f8fafc;
+}
+
+/* Forma elementlari uchun umumiy stillar */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* Input va textarea uchun focus holati */
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/* Kategoriya tanlash bo'limi */
+.category-select {
+  transition: all 0.2s ease;
+}
+
+.category-select:hover {
+  background-color: #edf2f7;
+}
+
+/* Responsive dizayn uchun media querylar */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animatsiyalar */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

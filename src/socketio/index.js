@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import router from "@/router";
+// const url = "http://localhost:5000";
 const url = "http://176.53.163.29:7005";
 class SocketioService {
   socket = null;
@@ -104,6 +105,12 @@ class SocketioService {
     this.socket.off("receive_private_message"); // Eski listenerlarni olib tashlash
     this.socket.on("receive_private_message", (data) => {
       callback(data);
+    });
+  }
+  updateElonStatus(id) {
+    if (!this.socket) return;
+    this.socket.emit("updateStatus", id, (res) => {
+      console.log(res);
     });
   }
   onNotification(callback) {

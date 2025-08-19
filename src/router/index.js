@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../pages/dashboard/dashboard.vue";
+const Wishes = () => import("../pages/wishes/wishes.vue");
 const Home = () => import("../pages/foydalanuvchi/home/homePage.vue");
 
 const ElonList = () => import("../pages/elon/list.vue");
@@ -82,6 +83,11 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register,
+  },
+  {
+    path: "/wishes",
+    name: "Wishes",
+    component: Wishes,
   },
   {
     path: "/elon_add",
